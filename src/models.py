@@ -2,6 +2,7 @@ import torch
 import torch.nn as nn
 from transformers import AutoModel
 
+from src import config
 
 class EncoderRNN(nn.Module):
     def __init__(self, input_size, embedding_size, hidden_size, n_layers=2, dropout=0.5):
@@ -172,7 +173,7 @@ class EncoderSeq(nn.Module):
         # self.embedding = nn.Embedding(input_size, embedding_size, padding_idx=0)
         # self.em_dropout = nn.Dropout(dropout)
         # self.gru_pade = nn.GRU(embedding_size, hidden_size, n_layers, dropout=dropout, bidirectional=True)
-        self.enc = AutoModel.from_pretrained('bert-base-chinese')
+        self.enc = AutoModel.from_pretrained(config.MODEL_NAME)
         self.enc.resize_token_embeddings(embedding_size)
         self.out = nn.Sequential(nn.ReLU(), nn.Linear(self.enc.config.hidden_size, self.hidden_size))
         

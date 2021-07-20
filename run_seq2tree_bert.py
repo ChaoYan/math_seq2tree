@@ -6,8 +6,10 @@ import torch.optim
 
 from src.expressions_transfer import *
 
-from transformers import AutoTokenizer, XLNetForTokenClassification
+from transformers import AutoTokenizer
 from tqdm import tqdm
+
+from src import config
 
 batch_size = 16
 embedding_size = 128
@@ -18,7 +20,7 @@ weight_decay = 1e-5
 beam_size = 5
 n_layers = 2
 
-tokenizer = AutoTokenizer.from_pretrained('bert-base-chinese')
+tokenizer = AutoTokenizer.from_pretrained(config.MODEL_NAME)
 tokenizer.add_special_tokens({'additional_special_tokens':['NUM']})
 embedding_size = len(tokenizer)
 
