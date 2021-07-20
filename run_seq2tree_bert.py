@@ -89,7 +89,7 @@ for fold in range(5):
         print("fold:", fold + 1)
         print("epoch:", epoch + 1)
         start = time.time()
-        for idx in range(len(input_lengths)):
+        for idx in tqdm(range(len(input_lengths))):
             loss = train_tree(
                 input_batches[idx], input_lengths[idx], output_batches[idx], output_lengths[idx],
                 num_stack_batches[idx], num_size_batches[idx], generate_num_ids, encoder, predict, generate, merge,
@@ -104,12 +104,12 @@ for fold in range(5):
         print("loss:", loss_total / len(input_lengths))
         print("training time", time_since(time.time() - start))
         print("--------------------------------")
-        if epoch % 10 == 0 or epoch > n_epochs - 5:
+        if epoch % 5 == 0 or epoch > n_epochs - 5:
             value_ac = 0
             equation_ac = 0
             eval_total = 0
             start = time.time()
-            for test_batch in test_pairs:
+            for test_batch in tqdm(test_pairs):
                 test_res = evaluate_tree(test_batch[0], test_batch[1], generate_num_ids, encoder, predict, generate,
                                          merge, output_lang, test_batch[5], beam_size=beam_size)
                 val_ac, equ_ac, _, _ = compute_prefix_tree_result(test_res, test_batch[2], output_lang, test_batch[4], test_batch[6])
